@@ -293,6 +293,12 @@ const CH_ORDER=['백화점','대리점','아울렛','쇼핑몰','직영가두점
 const COL_MAP={year:['판매년도','판매연도','년도','연도'],month:['판매월','월'],brand:['브랜드'],channel:['유통형태','채널'],code:['매장코드'],aff:['계열사명'],store:['매장명'],normal:['정상금액'],sales:['판매금액'],discount:['할인율'],yoy:['신장율']};
 const PIN_MAP_KEY='indongfn_pin_map';
 
+// GitHub Pages용 storage (localStorage 사용)
+const storage = {
+  set: (key, value) => { try { localStorage.setItem(key, value); return true; } catch(e) { return false; } },
+  get: (key) => { try { const v = localStorage.getItem(key); return v ? {value: v} : null; } catch(e) { return null; } },
+};
+
 // ── 유틸 ──────────────────────────────────────
 const wonB=v=>{const a=Math.abs(v),s=v<0?'-':'';return s+(a>=1e8?(a/1e8).toFixed(2)+'억':(a/1e4).toFixed(0)+'만')+'원';};
 const wonFull=v=>Math.round(v).toLocaleString('ko-KR');
@@ -396,12 +402,12 @@ async function confirmSave(){
     const payload=JSON.stringify({data:_data,brands:_brands,channels:_channels,affs:_affs,years:_years,months:_months,selYear:_selYear,selMonth:_selMonth,savedAt:new Date().toLocaleString('ko-KR')});
     if(payload.length>4800000){showToast('⚠️ 데이터가 너무 큽니다.');return;}
     const key='report_'+Date.now();
-    await window.storage.set(key,payload);
+    storage.set(key, payload);
     // PIN 맵 저장
     let pinMap={};
-    try{const ex=await window.storage.get(PIN_MAP_KEY);if(ex&&ex.value)pinMap=JSON.parse(ex.value);}catch(e){}
+    try{const ex=storage.get(PIN_MAP_KEY);if(ex&&ex.value)pinMap=JSON.parse(ex.value);}catch(e){}
     pinMap[pin]=key;
-    await window.storage.set(PIN_MAP_KEY,JSON.stringify(pinMap));
+    storage.set(PIN_MAP_KEY, JSON.stringify(pinMap));
     // 결과 표시
     document.getElementById('modal-pin-input-area').style.display='none';
     document.getElementById('pin-display').textContent=pin;
@@ -417,12 +423,12 @@ async function loadByPin(silent=false){
   document.getElementById('report-screen').style.display='block';
   document.getElementById('kpi-summary').innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:var(--muted);font-size:16px;">⏳ 보고서를 불러오는 중입니다...</div>`;
   try{
-    const mapResult=await window.storage.get(PIN_MAP_KEY);
+    const mapResult=storage.get(PIN_MAP_KEY);
     if(!mapResult||!mapResult.value)throw new Error('저장된 보고서가 없습니다.');
     const pinMap=JSON.parse(mapResult.value);
     const key=pinMap[pin];
     if(!key)throw new Error('번호가 맞지 않습니다.');
-    const result=await window.storage.get(key);
+    const result=storage.get(key);
     if(!result||!result.value)throw new Error('보고서 데이터를 찾을 수 없습니다.');
     const saved=JSON.parse(result.value);
     _data=saved.data;_brands=saved.brands;_channels=saved.channels;_affs=saved.affs;_years=saved.years;_months=saved.months;_selYear=saved.selYear;_selMonth=saved.selMonth;
