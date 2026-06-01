@@ -673,7 +673,7 @@ function buildReportHTML(b64,yr,mo){
     + '<div class="panel" id="panel-aff"><div class="sec-label">\uACC4\uC5F4\uC0AC\uBCC4 \uC0C1\uC138</div><div class="aff-grid" id="aff-cards"></div><div class="drill-panel" id="aff-drill" style="margin-top:16px;"><div class="drill-header"><div class="drill-title" id="aff-drill-title"></div><span class="drill-close" onclick="closeDrill(\'aff-drill\')">\u2715 \uB2EB\uAE30</span></div><div class="tbl-wrap"><table id="aff-drill-tbl"></table></div></div></div>\n'
     + '<div class="footer"><div class="fn">\uB370\uC774\uD130 \uCD9C\uCC98: INNOS \u00B7 \uB2E8\uC704: \uC6D0 (VAT \uD3EC\uD568)</div><div class="fn">\uC0DD\uC131: ' + new Date().toLocaleString('ko-KR') + '</div></div>\n'
     + '</div>\n'
-    + '<script>\n' + SHARED_JS + '\n<\/script>\n'
+    + '<script>\neval(decodeURIComponent(escape(atob(btoa(unescape(encodeURIComponent(SHARED_JS)))))))\n<\/script>\n'
     + '</body>\n</html>';
   return html;
 }
