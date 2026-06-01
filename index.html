@@ -292,7 +292,7 @@ function downloadHTML(){
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
   a.href=url;
-  a.download=`인동FN_보고서_${_selYear}년_${_selMonth}월.html`;
+  a.download=`report-${_selYear}-${String(_selMonth).padStart(2,'0')}.html`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
