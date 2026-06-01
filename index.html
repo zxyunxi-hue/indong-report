@@ -325,7 +325,7 @@ function shareReport(){
 }
 async function uploadReport(){
   var token=getToken();
-  var fileName='reports/report-'+_selYear+'-'+String(_selMonth).padStart(2,'0')+'.html';
+  var ts=Date.now();var fileName='reports/report-'+_selYear+'-'+String(_selMonth).padStart(2,'0')+'-'+ts+'.html';
   var pageURL='https://'+GITHUB_OWNER+'.github.io/'+GITHUB_REPO+'/'+fileName;
   document.getElementById('upload-status').className='upload-status';
   document.getElementById('upload-status').innerHTML='<span class="spinner"></span> GitHub에 업로드 중...';
