@@ -379,7 +379,7 @@ async function uploadReport(){
 
   try{
     const html=buildReportHTML(btoa(unescape(encodeURIComponent(JSON.stringify({data:_data,brands:_brands,channels:_channels,affs:_affs,years:_years,months:_months,selYear:_selYear,selMonth:_selMonth})))));
-    const encoded=btoa(unescape(encodeURIComponent(html)));
+    const encoder=new TextEncoder();const encoded=btoa(String.fromCharCode(...encoder.encode(html)));
 
     let sha=null;
     try{
