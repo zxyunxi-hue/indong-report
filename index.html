@@ -591,7 +591,7 @@ tr:hover td{background:#f5f6fa;}
 const BRAND_META=${JSON.stringify(BRAND_META)};
 const DEF_COLORS=${JSON.stringify(DEF_COLORS)};
 const CH_ORDER=${JSON.stringify(CH_ORDER)};
-const SN=JSON.parse(decodeURIComponent(escape(atob(\''+snJSON+'\')));
+const SN=JSON.parse(decodeURIComponent(escape(atob('" + snJSON + "'))));
 let _data=SN.data,_brands=SN.brands,_channels=SN.channels,_affs=SN.affs,_years=SN.years,_months=SN.months,_selYear=SN.selYear,_selMonth=SN.selMonth,_accCur=[],_accPrev=[];
 const wonB=v=>{const a=Math.abs(v),s=v<0?'-':'';return s+(a>=1e8?(a/1e8).toFixed(2)+'억':(a/1e4).toFixed(0)+'만')+'원';};
 const wonFull=v=>Math.round(v).toLocaleString('ko-KR');
